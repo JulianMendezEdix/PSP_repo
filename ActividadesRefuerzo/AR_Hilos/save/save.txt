@@ -1,0 +1,5 @@
+HiloEsPrimo [num=11, hiloQueProcesa=hilo4, processTime=0ms, esPrimo=true]
+HiloEsPrimo [num=11, hiloQueProcesa=hilo1, processTime=0ms, esPrimo=true]
+HiloEsPrimo [num=11, hiloQueProcesa=hilo4, processTime=0ms, esPrimo=true]
+HiloEsPrimo [num=11, hiloQueProcesa=hilo3, processTime=0ms, esPrimo=true]
+HiloEsPrimo [num=11, hiloQueProcesa=hilo2, processTime=0ms, esPrimo=true]

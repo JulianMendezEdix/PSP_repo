@@ -1,3 +1,7 @@
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
+import java.io.FileWriter;
 
 public class HiloEsPrimo implements Runnable{
 	
@@ -5,9 +9,11 @@ public class HiloEsPrimo implements Runnable{
 	private boolean esPrimo = false;
 	private long processTime;
 	private String hiloQueProcesa; 
+	private String option;
 	
-	public HiloEsPrimo(long num) {
+	public HiloEsPrimo(long num, String option) {
 		this.num = num;
+		this.option = option;
 	}
 
 	
@@ -15,9 +21,10 @@ public class HiloEsPrimo implements Runnable{
 	public void run() {
 	    long iniTime = System.currentTimeMillis();
 	    
-			for (int i=2; i<num ; i++ ) {	
+			for (long i=2; i<num ; i++ ) {	
 				
-				long aux = num%i;			
+				long aux = num%i;	
+				
 				if (aux == 0) {
 					esPrimo = false;
 					break;
@@ -25,29 +32,51 @@ public class HiloEsPrimo implements Runnable{
 				else
 					esPrimo = true;	
 			}		
-			
-		// El algortimo se puede mejorar gracias a gpt:
-			/*This code snippet improves the prime-checking logic by eliminating the need to check divisibility for even numbers (except 2) and by checking divisibility only up to the square root of the number for efficiency.*/
-			/*
-			if (num <= 1) {
-		        esPrimo = false; // 0 and 1 are not prime
-		    } else if (num == 2) {
-		        esPrimo = true; // 2 is prime
-		    } else if (num % 2 == 0) {
-		        esPrimo = false; // Even numbers (except 2) are not prime
-		    } else {
-		        esPrimo = true;
-		        for (long i = 3; i * i <= num; i += 2) {
-		            if (num % i == 0) {
-		                esPrimo = false;
-		                break;
-		            }
-		        }
-		    }*/
 
 	    long finTime = System.currentTimeMillis();	
 	    hiloQueProcesa = Thread.currentThread().getName();
 	    processTime =  (finTime - iniTime);
+	    
+	    System.out.println(toString());
+	    
+		switch (option) {
+		case "y","Y":
+			System.out.println("Gurdando resultados");
+			File saveDir = new File("save");
+			saveDir.mkdir();
+			/*
+			File save = new File ("save//save.txt");
+			try {
+				save.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			*/
+			FileWriter file;
+			try {
+				file = new FileWriter("save//save.txt", true);
+			} catch (IOException e) {
+				System.out.println("No se puede abrir o crear el fichero");
+				System.out.println(e.getMessage());
+				return;
+			}
+			
+			BufferedWriter buffer = new BufferedWriter(file);
+			try {
+				buffer.write(toString());
+				buffer.newLine();
+				buffer.flush();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+	
+		default:
+			System.out.println("No desea guardar resultados");
+		}
+
 	}
 
 	@Override
